@@ -54,7 +54,11 @@ Main success scenario:
 </ol>
 
 Vocab: floor lights, order, request, order lights
+
 Primary Actor: Passenger
+
 Pre-condition: elevator lies within floor 1 and 4
+
 Guarantee: Carry out the passengers request, and orders
+
 Trigger: Passenger presses request button
