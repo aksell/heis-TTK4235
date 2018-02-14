@@ -4,9 +4,9 @@
 // 2007, Martin Korsgaard
 
 
-#include "channels.h"
-#include "elev.h"
-#include "io.h"
+#include "../include/channels.h"
+#include "../include/elev.h"
+#include "../include/io.h"
 
 #include <assert.h>
 #include <stdlib.h>
