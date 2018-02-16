@@ -52,6 +52,13 @@ int elev_init(void) {
     elev_set_door_open_lamp(0);
     elev_set_floor_indicator(0);
 
+    //initaialiserer heis poisjon
+    elev_set_motor_direction(DIRN_UP);
+
+    while(elev_get_floor_sensor_signal()==-1){};
+    elev_set_motor_direction(DIRN_STOP);
+
+
     // Return success.
     return 1;
 }
