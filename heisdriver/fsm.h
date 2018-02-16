@@ -1,13 +1,13 @@
 #infdef FSM_H
 #define FSM_H
 
-enum state {
-    idle = 0;
-    moving =1;
-    stop = 3;
-    emergency_stop = 4;
+typedef enum state {
+    IDLE = 0;
+    MOVING =1;
+    STOP = 3;
+    EMERGENCY = 4;
+
 
 }
-
 
 #endif
