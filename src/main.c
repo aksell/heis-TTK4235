@@ -1,4 +1,4 @@
-#include "../include/elev.h"
+#include "elev.h"
 #include <stdio.h>
 
 
