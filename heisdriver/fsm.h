@@ -1,5 +1,5 @@
 #include "elev.h"
-#include "orderSys.h" 
+#include "orderSys.h"
 #include <stdio.h>
 
 #infdef FSM_H
@@ -10,14 +10,14 @@
 typedef enum state_type {
     IDLE = 0;
     MOVING =1;
-    STOP = 3;
-    EMERGENCY = 4;
+    STOP = 2;
+    EMERGENCY = 3;
 
 
-}
+} state_t;
 
 
-static state_type current_state;
+static state_t current_state;
 static int current_floor;
 static int motor_dir;
 static int previous_floor;
