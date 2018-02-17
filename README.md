@@ -1,2 +1,7 @@
 # heis-TTK4235
-Heisprosjekt i tilpassede datasystemer V2018
+Elevator project in embedded systems V2018.
+
+
+"heis" is norwegian for elevator
+
+
