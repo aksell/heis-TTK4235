@@ -16,14 +16,14 @@ int main() {
         return 1;
     }
 
-
+    //CODE ABOVE: TESTED
 
 
 
     while (1) {
 
         fsm_ev_floor_sensor(elev_get_floor_sensor_signal());
-        /*
+        
         if (elev_get_stop_signal()){
                    fsm_ev_emergency(); 
         }
@@ -36,7 +36,7 @@ int main() {
                 }
             }
             
-            */
+          
         }
     
 
