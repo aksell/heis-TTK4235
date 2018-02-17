@@ -1,6 +1,14 @@
 #include "elev.h"
 #include <stdio.h>
 
+void floor_light_update(){
+    if (elev_get_floor_sensor_signal() != -1){
+        elev_set_floor_indicator(elev_get_floor_sensor_signal());
+    }
+}
+
+void elevator_controller();
+
 
 int main() {
     // Initialize hardware
@@ -11,9 +19,11 @@ int main() {
 
     printf("Press STOP button to stop elevator and exit program.\n");
 
+
     elev_set_motor_direction(DIRN_UP);
 
     while (1) {
+
         // Change direction when we reach top/bottom floor
         if (elev_get_floor_sensor_signal() == N_FLOORS - 1) {
             elev_set_motor_direction(DIRN_DOWN);
@@ -25,8 +35,6 @@ int main() {
         if (elev_get_stop_signal()) {
             elev_set_motor_direction(DIRN_STOP);
             break;
-        }
-    }
-
+        } 
     return 0;
 }
