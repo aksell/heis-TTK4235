@@ -1,37 +1,32 @@
 #include "elev.h"
 #include <stdio.h>
 
-static int order_list[4] = {-1};
-static bool request_up[4] = {0};	//siste element er ubrukt
-static bool request_down[4] = {0};	//første element er ubrukt
 
-void order_update(int floor){
-	for(int i = 0; i<4; i++){
-		if(order_list[i]==floor){
-			return;
-		}
-		else if(order_list[i]==-1){
-			order_list[i]=floor;
-		}
-	}
+static int queue[4] = {-1};
+static bool active_buttons[N_FLOORS][3] = {{0}};
 
+
+void order_update((elev_button_type_t button, int floor){
+	buttons[f][button] =1;
 };
 
 void order_executed(int floor){
-	request_down[floor] = 0;
-	request_up[floor] = 0;
+
+	for(int i = 0; i<3;i++){
+		active_buttons[f][i] = 0;
+	}
+
+	//moves array
 	for(int i = 0;i<4;i++){
-		if(order_list[i]==floor && i!=3){
-			order_list[i] = -1;
+		if(queue[i]==floor && i!=3){
 			for(int j = i, j<3;j++){
-				temp = order_list[j+1];
-				order_list[j+1] = order_list[j];
-				order_list[j] = temp;
+				queue[j] = queue[j+1];
 			}
+			queue[3] = -1;
 				
 		}
-		else if(order_list[i]==floor){
-			order_list[i] = -1;
+		else if(queue[i]==floor){
+			queue[i] = -1;
 		}
 			}
 	}
@@ -40,12 +35,48 @@ void order_executed(int floor){
 
 void order_clear(){
 	for(int i = 0; i<4; i++){
-		order_list[i]=-1;
+		queue[i]=-1;
 		request_up[i]=0;
 		request_down[i]=0;
 	}
 
 };
-int get_new_desitination():
-bool ordered_dir(floor, dir)
+
+
+elev_motor_direction_t order_get_dir(int floor){
+	if(queue[0]<floor){
+		return DIRN_DOWN;
+	}
+	else if(queue[0]>floor){
+		return DIRN_DOWN;
+	}
+	else if(queue[0]==floor){
+		return DIRN_STOP;
+	}
+	for(int f = 0;f<4;f++){
+
+	}
+
+};
+
+void order_completed(int floor){
+	//sett requests + orders at floor to zero, moves queue
+}; //de
+bool order_should_stop(int floor, elev_motor_direction_t dir){
+	for(int i = 0; i<4; i++){
+		if(queue[i]==floor){
+			
+		}
+	}
+	//check direction of request
+	//check if in order list
+	return 1;
+
+};
+bool orders_none(){
+	return 1; //if no orders or requests
+};
+void order_clear(){	//setter alt til 0
+
+};
 
