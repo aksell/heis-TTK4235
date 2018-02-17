@@ -1,32 +1,45 @@
 #include "elev.h"
 #include <stdio.h>
+#include "fsm.h"
 
 
 int main() {
     // Initialize hardware
     if (!elev_init()) {
+            //initaialiserer heis poisjon
         printf("Unable to initialize elevator hardware!\n");
         return 1;
     }
 
-    printf("Press STOP button to stop elevator and exit program.\n");
+    if (!fsm_init()){
+        printf("Unable to initialize fsm\n");
+        return 1;
+    }
 
-    elev_set_motor_direction(DIRN_UP);
+
+
+
 
     while (1) {
-        // Change direction when we reach top/bottom floor
-        if (elev_get_floor_sensor_signal() == N_FLOORS - 1) {
-            elev_set_motor_direction(DIRN_DOWN);
-        } else if (elev_get_floor_sensor_signal() == 0) {
-            elev_set_motor_direction(DIRN_UP);
+
+        fsm_ev_floor_sensor(elev_get_floor_sensor_signal());
+        /*
+        if (elev_get_stop_signal()){
+                   fsm_ev_emergency(); 
         }
 
-        // Stop elevator and exit program if the stop button is pressed
-        if (elev_get_stop_signal()) {
-            elev_set_motor_direction(DIRN_STOP);
-            break;
+
+        for(int f = 0; f<N_FLOORS; b++){
+            for(elev_button_type_t b = BUTTON_CALL_UP; b<=BUTTON_COMMAND; b++){
+                if(elev_get_button_signal(b,f)){
+                    fsm_ev_button(b,f);
+                }
+            }
+            
+            */
         }
-    }
+    
+
 
     return 0;
 }
