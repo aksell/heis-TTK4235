@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include "fsm.h"
 
-
 int main() {
     // Initialize hardware
     if (!elev_init()) {
@@ -17,6 +16,7 @@ int main() {
     }
 
     //CODE ABOVE: TESTED
+
 
 
 
@@ -38,8 +38,6 @@ int main() {
             
           
         }
-    
-
-
+   
     return 0;
 }
