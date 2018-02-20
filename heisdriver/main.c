@@ -21,13 +21,12 @@ int main() {
 
 
     while (1) {
-
-        fsm_ev_floor_sensor(elev_get_floor_sensor_signal());
-        
+        if (elev_get_floor_sensor_signal()){
+          fsm_ev_floor_sensor(elev_get_floor_sensor_signal())
+        };
         if (elev_get_stop_signal()){
-                   fsm_ev_emergency(); 
-        }
-
+                   fsm_ev_emergency();
+        };
 
         for(int f = 0; f<N_FLOORS; b++){
             for(elev_button_type_t b = BUTTON_CALL_UP; b<=BUTTON_COMMAND; b++){
@@ -35,9 +34,9 @@ int main() {
                     fsm_ev_button(b,f);
                 }
             }
-            
-          
+
+
         }
-   
+
     return 0;
 }
