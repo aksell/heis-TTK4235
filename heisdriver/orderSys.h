@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 
-static int queue[4] = {-1};
+static int queue[4] = {-1,-1,-1,-1};
 static bool active_buttons[N_FLOORS][3] = {{0}};
 
 void print_queue();
