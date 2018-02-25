@@ -21,22 +21,28 @@ int main() {
 
 
     while (1) {
-        if (elev_get_floor_sensor_signal()){
-          fsm_ev_floor_sensor(elev_get_floor_sensor_signal())
+        
+        if (elev_get_floor_sensor_signal()!=-1){
+            fsm_ev_floor_sensor(elev_get_floor_sensor_signal());
         };
         if (elev_get_stop_signal()){
-                   fsm_ev_emergency();
+            fsm_ev_emergency();
         };
 
-        for(int f = 0; f<N_FLOORS; b++){
+        for(int f = 0; f<N_FLOORS; f++){
             for(elev_button_type_t b = BUTTON_CALL_UP; b<=BUTTON_COMMAND; b++){
-                if(elev_get_button_signal(b,f)){
+                if((f==0 && b==BUTTON_CALL_DOWN)||(f==3&&b==BUTTON_CALL_UP)){
+                    continue;
+                }//to avoid assertion from elev_get_button signal
+                else if(elev_get_button_signal(b,f)){
                     fsm_ev_button(b,f);
                 }
             }
 
 
         }
+       
+    }
 
     return 0;
 }

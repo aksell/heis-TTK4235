@@ -1,19 +1,22 @@
 #include "orderSys.h"
 
+/*
 void print_queue(){
 	for(int f = 0; f<4;f++){
-			printf(queue[i] + "\t" );
+			printf(queue[f] + "\t" );
 	}
 }
 
 void print_buttons(){
 	for(int f = 0; f<4;f++){
 		for(int b = 0; b<3;b++){
-			printf(active_buttons[f][i] + "\t" );
+			printf(active_buttons[f][b] + "\t" );
 		}
-		printf("\n", );
+		printf("\n");
 	}
 }
+
+*/
 
 void order_update(elev_button_type_t button, int floor) {
 	active_buttons[floor][button] = 1;
@@ -22,6 +25,7 @@ void order_update(elev_button_type_t button, int floor) {
 		for (int i = 0; i<4; i++) {
 			if (queue[i] == floor || queue[i] == -1) {
 				queue[i] = floor;
+				printf("queue: %i\n", floor);
 				break;
 			}
 		}
@@ -50,7 +54,7 @@ void order_completed(int floor) {
 void order_clear() {
 	for (int i = 0; i<4; i++) {
 		queue[i] = -1;
-		for (int j = 0; j<3; i++) {
+		for (int j = 0; j<3; j++) {
 			active_buttons[i][j] = 0;
 		}
 	}
@@ -58,21 +62,26 @@ void order_clear() {
 }
 
 elev_motor_direction_t order_get_dir(int floor) {
+	printf("%i floor\n",floor);
 
 	if (queue[0]<floor && queue[0]!=-1) {
 		return DIRN_DOWN;
 	};
-	if (queue[0]>floor) {
+	if (queue[0]>floor && queue[0]!=-1) {
 		return DIRN_UP;
 	};
-	if (queue[0] == floor) {
+	if (queue[0] == floor && queue[0]!=-1) {
 		return DIRN_STOP;
 	};
 
+
 	if (active_buttons[floor][1] || active_buttons[floor][0]) {
+		printf("2\n");
+
 		return DIRN_STOP;
+
 	}
-	int requests_up = 0;
+	int requests_up = 0;		//above
 	int requests_down = 0;
 	for (int f = 0; f<floor; f++) {
 		requests_down += active_buttons[f][1];
@@ -89,7 +98,11 @@ elev_motor_direction_t order_get_dir(int floor) {
 	if (requests_down>requests_up) {
 		return DIRN_DOWN;
 	};
+	
+	printf("end\n");
+
 	return DIRN_STOP;
+
 
 
 }

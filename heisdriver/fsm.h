@@ -2,6 +2,8 @@
 #include "orderSys.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include "timer.h"
+
 
 #ifndef FSM_H
 #define FSM_H
@@ -27,6 +29,8 @@ static int previous_floor;
 bool fsm_init();
 
 void fsm_ev_floor_sensor(int floor);
+
+void fsm_ev_emergency();
 
 void fsm_ev_button(elev_button_type_t button, int floor);
 
