@@ -9,7 +9,7 @@ bool fsm_init(){		//Set elev to known current_state//TESTED
 
 }
 
-void fsm_ev_floor_sensor(int floor){
+void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 	elev_set_floor_indicator(floor);
 	current_floor = elev_get_floor_sensor_signal();
 
@@ -50,7 +50,7 @@ void fsm_ev_floor_sensor(int floor){
 				current_state = IDLE;
 			}else{
 				motor_dir = order_get_dir(floor);
-				elev_set_motor_direction(order_get_dir(floor));
+				elev_set_motor_direction(order_get_dir(current_floor));
 				current_state=MOVING;
 			}
 			break;
@@ -128,8 +128,8 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 				current_state = STOP;
 				break;
 			}else{
-				motor_dir = order_get_dir(floor);
-				elev_set_motor_direction(order_get_dir(floor));
+				motor_dir = order_get_dir(current_floor);
+				elev_set_motor_direction(order_get_dir(current_floor));
 				current_state = MOVING;
 			}
 
