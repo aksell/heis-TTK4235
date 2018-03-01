@@ -129,7 +129,7 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 				break;
 			}else{
 				motor_dir = order_get_dir(current_floor);
-				elev_set_motor_direction(order_get_dir(current_floor));
+				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;
 			}
 
