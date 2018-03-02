@@ -26,4 +26,8 @@ void order_clear();
 
 void order_print_queue();
 
+bool order_no_request_current_dir(elev_motor_direction_t dir);
+
+bool queue_empty();
+
 #endif

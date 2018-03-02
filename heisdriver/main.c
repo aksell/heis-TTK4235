@@ -19,13 +19,15 @@ int main() {
 
     int cycle_num = 0;
     state_t prev_state = IDLE;
+    int floor;
 
 
 
     while (1) {
-        
-        if (elev_get_floor_sensor_signal()!=-1){
-            fsm_ev_floor_sensor(elev_get_floor_sensor_signal());
+
+        floor = elev_get_floor_sensor_signal();
+        if (floor!=-1){
+            fsm_ev_floor_sensor(floor);
         };
         if (elev_get_stop_signal()){
             fsm_ev_emergency();
