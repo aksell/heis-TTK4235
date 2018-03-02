@@ -24,4 +24,6 @@ bool orders_none();
 
 void order_clear();
 
+void order_print_queue();
+
 #endif

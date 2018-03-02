@@ -1,12 +1,15 @@
 #include "orderSys.h"
 
-/*
-void print_queue(){
+
+void order_print_queue(){
+	printf("Queue: " );
 	for(int f = 0; f<4;f++){
-			printf(queue[f] + "\t" );
+			printf("%d, ",queue[f]);
 	}
+	printf("\n");
 }
 
+/*
 void print_buttons(){
 	for(int f = 0; f<4;f++){
 		for(int b = 0; b<3;b++){
@@ -15,7 +18,6 @@ void print_buttons(){
 		printf("\n");
 	}
 }
-
 */
 
 void order_update(elev_button_type_t button, int floor) {
@@ -110,6 +112,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 
 bool order_should_stop(int floor, elev_motor_direction_t dir) {
+	
 	//Check if in queue
 	for (int i = 0; i<4; i++) {
 		if (queue[i] == floor) {
