@@ -25,7 +25,7 @@ void order_update(elev_button_type_t button, int floor) {
 		for (int i = 0; i<4; i++) {
 			if (queue[i] == floor || queue[i] == -1) {
 				queue[i] = floor;
-				printf("queue: %i\n", floor);
+				//printf("queue: %i\n", floor);
 				break;
 			}
 		}
@@ -65,7 +65,7 @@ void order_clear() {
 
 
 elev_motor_direction_t order_get_dir(int floor) {
-	printf("%i floor\n",floor);
+	//printf("%i floor\n",floor);
 
 	if (queue[0]<floor && queue[0]!=-1) {
 		return DIRN_DOWN;
@@ -79,7 +79,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 
 	if (active_buttons[floor][1] || active_buttons[floor][0]) {
-		printf("2\n");
+		//printf("2\n");
 
 		return DIRN_STOP;
 
@@ -102,7 +102,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 		return DIRN_DOWN;
 	};
 	
-	printf("end\n");
+	//printf("end\n");
 
 	return DIRN_STOP;
 

@@ -28,7 +28,7 @@ void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 			break;
 
 		case STOP:
-			printf("sensor_signal_stop\n");
+			//printf("sensor_signal_stop\n");
 			motor_dir = DIRN_STOP;
 			elev_set_motor_direction(DIRN_STOP);
 			elev_set_door_open_lamp(1);
@@ -57,7 +57,7 @@ void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 
 
 		case EMERGENCY:
-			printf("sensor_signal_emergency\n");
+			//printf("sensor_signal_emergency\n");
 			elev_set_door_open_lamp(1);
 			while(elev_get_stop_signal()){};
 			elev_set_stop_lamp(0);
@@ -92,17 +92,17 @@ void fsm_ev_emergency(){
 	switch (current_state){
 
 		case IDLE:
-			printf("em_signal_idle\n");
+			//printf("em_signal_idle\n");
 		case MOVING:
-			printf("em_signal_moving\n");
+			//printf("em_signal_moving\n");
 		case STOP:
-			printf("em_signal_stop\n");
+			//printf("em_signal_stop\n");
 			current_state = EMERGENCY;
 			break;
 
 		case EMERGENCY:
 			printf("em_signal_em\n");
-			//KAN FLYTTES UDER FSM_EV_EMERGENCY
+			//KAN FLYTTES UNDER FSM_EV_EMERGENCY
 			while(elev_get_stop_signal()){};
 			elev_set_stop_lamp(0);
 			timer_wait(3);
@@ -122,7 +122,7 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 	switch (current_state){
 
 		case IDLE:
-			printf("button_signal_idle\n");
+			//printf("button_signal_idle\n");
 			if(order_get_dir(current_floor)==DIRN_STOP){
 				printf("hjelp\n");
 				current_state = STOP;
@@ -134,13 +134,13 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 			}
 
 		case MOVING:
-			printf("button_signal_mov\n");
+			//printf("button_signal_mov\n");
 			break;
 		case STOP:
-			printf("button_signal_stop\n");
+			//printf("button_signal_stop\n");
 			break;
 		case EMERGENCY:
-			printf("button_signal_em\n");
+			//printf("button_signal_em\n");
 			break;
 
 		}
