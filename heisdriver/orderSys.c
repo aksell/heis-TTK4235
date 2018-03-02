@@ -108,26 +108,6 @@ elev_motor_direction_t order_get_dir(int floor) {
 }
 
 
-//returns 1 if no request in current direction
-bool order_no_request_current_dir(elev_motor_direction_t dir){
-	int button;
-
-	if(dir == -1){
-		button = 1; //BUTTON_CALL_DOWN
-	}
-	if(dir == 1){
-		button = 0; //BUTTON_CALL_UP
-	}
-	for (int i = 0; i < 4; i++) {
-		if (active_buttons[button][i]) {
-			return 0;
-		}
-
-	}
-	return 1;
-};
-
-
 
 bool order_should_stop(int floor, elev_motor_direction_t dir) {
 	//Check if in queue
@@ -136,15 +116,15 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 			return 1;
 		}
 	}
-	//check if requested
+	//check if requested and in same direction
 	if (dir == -1 && active_buttons[floor][1]) {
 		return 1;
 	}
 	if (dir == 1 && active_buttons[floor][0]) {
 		return 1;
 	}
-
-	if (order_no_request_current_dir(dir) && (active_buttons[floor][0] || active_buttons[floor][1])){
+	//check if requested and not in same direction
+	if (active_buttons[floor][0] || active_buttons[floor][1]){
 		return 1;
 	}
 

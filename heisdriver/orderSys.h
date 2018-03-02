@@ -22,7 +22,6 @@ bool order_should_stop(int floor, elev_motor_direction_t dir);
 
 bool orders_none();
 
-bool order_no_request_current_dir(elev_motor_direction_t dir);
 
 void order_clear();
 
