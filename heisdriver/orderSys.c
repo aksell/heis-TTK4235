@@ -79,13 +79,6 @@ elev_motor_direction_t order_get_dir(int floor) {
 		return DIRN_STOP;
 	};
 
-
-	if (active_buttons[floor][1] || active_buttons[floor][0]) {
-		//printf("2\n");
-
-		return DIRN_STOP;
-
-	}
 	int requests_up = 0;		//above
 	int requests_down = 0;
 	for (int f = 0; f<floor; f++) {
@@ -126,8 +119,8 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 	if (dir == 1 && active_buttons[floor][0]) {
 		return 1;
 	}
-	//check if requested and not in same direction
-	if (active_buttons[floor][0] || active_buttons[floor][1]){
+	
+	if (order_no_request_current_dir(dir) && (active_buttons[floor][0] || active_buttons[floor][1])){
 		return 1;
 	}
 
@@ -139,6 +132,34 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 bool orders_none() {
 	for (int i = 0; i < 4; i++) {
 		if (queue[i] != -1 || active_buttons[i][0] != 0 || active_buttons[i][1] != 0 ||  active_buttons[i][2] != 0) {
+			return 0;
+		}
+
+	}
+	return 1;
+};
+
+bool queue_empty(){
+	for(int i = 0; i<4;i++){
+		if(queue[i]!=-1){
+			return false;
+		}
+	}
+	return true;
+}
+
+//returns 1 if no request in current direction
+bool order_no_request_current_dir(elev_motor_direction_t dir){
+	int button;
+
+	if(dir == -1){
+		button = 1; //BUTTON_CALL_DOWN
+	}
+	if(dir == 1){
+		button = 0; //BUTTON_CALL_UP
+	}
+	for (int i = 0; i < 4; i++) {
+		if (active_buttons[button][i]) {
 			return 0;
 		}
 
