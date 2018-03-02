@@ -36,6 +36,4 @@ void fsm_ev_button(elev_button_type_t button, int floor);
 
 state_t fsm_get_state();
 
-
-
 #endif

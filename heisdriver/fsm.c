@@ -117,6 +117,7 @@ void fsm_ev_emergency(){
 
 void fsm_ev_button(elev_button_type_t button, int floor){
 	order_update(button, floor);
+	order_print_queue();
 	elev_set_button_lamp(button, floor, 1);
 
 	switch (current_state){
