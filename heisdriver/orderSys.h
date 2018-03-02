@@ -30,4 +30,6 @@ bool order_no_request_current_dir(elev_motor_direction_t dir);
 
 bool queue_empty();
 
+elev_motor_direction_t order_get_dir_d(double floor);
+
 #endif

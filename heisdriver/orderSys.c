@@ -99,6 +99,39 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 }
 
+elev_motor_direction_t order_get_dir_d(double floor) {
+
+	if (queue[0]<floor && queue[0]!=-1) {
+		return DIRN_DOWN;
+	};
+	if (queue[0]>floor && queue[0]!=-1) {
+		return DIRN_UP;
+	};
+
+	if (queue[0] == floor && queue[0]!=-1) {
+		return DIRN_STOP;
+	};
+
+	int requests_up = 0;		//above
+	int requests_down = 0;
+	for (int f = 0; f<floor; f++) {
+		requests_down += active_buttons[f][1];
+		requests_down += active_buttons[f][0];
+	}
+	for (int f = floor+1; f < 4; f++){
+		requests_up += active_buttons[f][1];
+		requests_up += active_buttons[f][0];
+	}
+	if (requests_up >= requests_down && requests_up != 0) {
+		return DIRN_UP;
+	};
+	if (requests_down>requests_up) {
+		return DIRN_DOWN;
+	};
+	return DIRN_STOP;
+
+}
+
 
 bool order_should_stop(int floor, elev_motor_direction_t dir) {
 	

@@ -129,7 +129,11 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 
 		case IDLE:
 		printf("%i ey aiyhaaaaaaa\n", elev_get_floor_sensor_signal());
-
+			if(current_floor==-1){
+				motor_dir = order_get_dir_d((current_floor+previous_floor)/2.0);
+				elev_set_motor_direction(motor_dir);
+				current_state = MOVING;	
+			}
 			//printf("button_signal_idle\n");
 			if(order_get_dir(current_floor)==DIRN_STOP){
 				if(orders_none()){
