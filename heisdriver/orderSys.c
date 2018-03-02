@@ -67,7 +67,6 @@ void order_clear() {
 
 
 elev_motor_direction_t order_get_dir(int floor) {
-	//printf("%i floor\n",floor);
 
 	if (queue[0]<floor && queue[0]!=-1) {
 		return DIRN_DOWN;
@@ -75,6 +74,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 	if (queue[0]>floor && queue[0]!=-1) {
 		return DIRN_UP;
 	};
+
 	if (queue[0] == floor && queue[0]!=-1) {
 		return DIRN_STOP;
 	};
@@ -89,16 +89,12 @@ elev_motor_direction_t order_get_dir(int floor) {
 		requests_up += active_buttons[f][1];
 		requests_up += active_buttons[f][0];
 	}
-
 	if (requests_up >= requests_down && requests_up != 0) {
 		return DIRN_UP;
 	};
 	if (requests_down>requests_up) {
 		return DIRN_DOWN;
 	};
-	
-	//printf("end\n");
-
 	return DIRN_STOP;
 
 }
