@@ -1,12 +1,15 @@
 #include "orderSys.h"
 
-/*
-void print_queue(){
+
+void order_print_queue(){
+	printf("Queue: " );
 	for(int f = 0; f<4;f++){
-			printf(queue[f] + "\t" );
+			printf("%d, ",queue[f]);
 	}
+	printf("\n");
 }
 
+/*
 void print_buttons(){
 	for(int f = 0; f<4;f++){
 		for(int b = 0; b<3;b++){
@@ -15,7 +18,6 @@ void print_buttons(){
 		printf("\n");
 	}
 }
-
 */
 
 void order_update(elev_button_type_t button, int floor) {
@@ -25,7 +27,7 @@ void order_update(elev_button_type_t button, int floor) {
 		for (int i = 0; i<4; i++) {
 			if (queue[i] == floor || queue[i] == -1) {
 				queue[i] = floor;
-				printf("queue: %i\n", floor);
+				//printf("queue: %i\n", floor);
 				break;
 			}
 		}
@@ -65,7 +67,7 @@ void order_clear() {
 
 
 elev_motor_direction_t order_get_dir(int floor) {
-	printf("%i floor\n",floor);
+	//printf("%i floor\n",floor);
 
 	if (queue[0]<floor && queue[0]!=-1) {
 		return DIRN_DOWN;
@@ -79,7 +81,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 
 	if (active_buttons[floor][1] || active_buttons[floor][0]) {
-		printf("2\n");
+		//printf("2\n");
 
 		return DIRN_STOP;
 
@@ -102,7 +104,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 		return DIRN_DOWN;
 	};
 	
-	printf("end\n");
+	//printf("end\n");
 
 	return DIRN_STOP;
 
@@ -110,6 +112,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 
 bool order_should_stop(int floor, elev_motor_direction_t dir) {
+	
 	//Check if in queue
 	for (int i = 0; i<4; i++) {
 		if (queue[i] == floor) {
