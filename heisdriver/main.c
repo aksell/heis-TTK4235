@@ -46,7 +46,7 @@ int main() {
 
         //System messages
         cycle_num++;
-        
+
         if(fsm_get_state() != prev_state){
             printf("Current state: %d, Cycle number: %d \n",fsm_get_state(),cycle_num);
 
