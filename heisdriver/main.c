@@ -15,7 +15,6 @@ int main() {
         return 1;
     }
 
-    //CODE ABOVE: TESTED
 
     int cycle_num = 0;
     state_t prev_state = IDLE;
@@ -29,7 +28,7 @@ int main() {
         if (floor!=-1){
             fsm_ev_floor_sensor(floor);
         };
-        if (elev_get_stop_signal()){
+        if (elev_get_stop_signal() || fsm_get_state()==EMERGENCY){
             fsm_ev_emergency();
         };
 
