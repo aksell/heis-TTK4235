@@ -10,6 +10,7 @@ bool fsm_init(){		//Set elev to known current_state//TESTED
 }
 
 void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
+	
 	elev_set_floor_indicator(floor);
 	current_floor = elev_get_floor_sensor_signal();
 
@@ -33,6 +34,7 @@ void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 			elev_set_motor_direction(DIRN_STOP);
 			elev_set_door_open_lamp(1);
 			order_completed(floor);
+			order_print_queue();
 			timer_wait(3);
 			//wait 3 sec check for emergency!!
 			//resets all lamps at floor
@@ -125,8 +127,11 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 		case IDLE:
 			//printf("button_signal_idle\n");
 			if(order_get_dir(current_floor)==DIRN_STOP){
-				printf("hjelp\n");
-				current_state = STOP;
+				if(orders_none()){
+					current_state = IDLE;
+
+				}
+				else{current_state = STOP;}
 				break;
 			}else{
 				motor_dir = order_get_dir(current_floor);
