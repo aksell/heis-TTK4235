@@ -32,6 +32,7 @@ void order_update(elev_button_type_t button, int floor) {
 	}
 }
 
+
 void order_completed(int floor) {
 
 	for (int i = 0; i<3; i++) {
@@ -51,6 +52,7 @@ void order_completed(int floor) {
 	}
 }
 
+
 void order_clear() {
 	for (int i = 0; i<4; i++) {
 		queue[i] = -1;
@@ -60,6 +62,7 @@ void order_clear() {
 	}
 
 }
+
 
 elev_motor_direction_t order_get_dir(int floor) {
 	printf("%i floor\n",floor);
@@ -103,10 +106,7 @@ elev_motor_direction_t order_get_dir(int floor) {
 
 	return DIRN_STOP;
 
-
-
 }
-
 
 
 bool order_should_stop(int floor, elev_motor_direction_t dir) {
@@ -142,4 +142,3 @@ bool orders_none() {
 	}
 	return 1;
 };
-
