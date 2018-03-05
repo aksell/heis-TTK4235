@@ -1,5 +1,5 @@
 # heis-TTK4235
-Elevator project in embedded systems sping semester 2018.
+Elevator project in embedded systems spring semester 2018.
 
 
 ## Vocabulary
