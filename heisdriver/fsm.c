@@ -29,13 +29,13 @@ void fsm_ev_floor_sensor(int floor){
 				timer_set();
 			}
 
-			elev_set_door_open_lamp(1);
+			elev_set_door_open_lamp(ON);
 			order_completed(floor);
 			clear_lights(current_floor);
 
 			if(timer_get() > WAIT_TIME){
 				timer_reset();
-				elev_set_door_open_lamp(0);
+				elev_set_door_open_lamp(OFF);
 
 				if(orders_none()){
 					current_state = IDLE;
@@ -48,10 +48,10 @@ void fsm_ev_floor_sensor(int floor){
 			}
 			break;
 		case EMERGENCY:
-			elev_set_door_open_lamp(1);
+			elev_set_door_open_lamp(ON);
 			while(elev_get_stop_signal()){};
-			elev_set_stop_lamp(0);
-			elev_set_door_open_lamp(0);
+			elev_set_stop_lamp(OFF);
+			elev_set_door_open_lamp(OFF);
 			current_state = STOP;
 			break;
 
@@ -75,11 +75,11 @@ void fsm_ev_emergency(){
 		case MOVING:
 		case STOP:
 			current_state = EMERGENCY;
-			elev_set_stop_lamp(1);
+			elev_set_stop_lamp(ON);
 			break;
 		case EMERGENCY:
 			while(elev_get_stop_signal()){};
-			elev_set_stop_lamp(0);
+			elev_set_stop_lamp(OFF);
 			if(!timer_active()){
 				timer_set();
 			}
@@ -98,13 +98,13 @@ void fsm_ev_emergency(){
 
 void fsm_ev_button(elev_button_type_t button, int floor){
 	order_update(button, floor);
-	elev_set_button_lamp(button, floor, 1);
+	elev_set_button_lamp(button, floor, ON);
 	current_floor = elev_get_floor_sensor_signal();
 
 	switch (current_state){
 
 		case IDLE:
-			if(current_floor==-1){
+			if(current_floor == -1){
 				motor_dir = order_get_dir_d(real_floor);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;	
@@ -143,11 +143,11 @@ state_t fsm_get_state(){
 
 void clear_lights(int floor){
 	for(elev_button_type_t b = BUTTON_CALL_UP; b <= BUTTON_COMMAND; b++){
-		if((floor==0 && b==BUTTON_CALL_DOWN)||(floor==3&&b==BUTTON_CALL_UP)){
+		if((floor == 0 && b == BUTTON_CALL_DOWN) || (floor == 3 && b == BUTTON_CALL_UP)){
            	continue;
         }
 	    else{
-			elev_set_button_lamp(b , floor, 0);
+			elev_set_button_lamp(b , floor, OFF);
 		}
 	}
 }

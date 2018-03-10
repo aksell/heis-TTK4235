@@ -11,6 +11,8 @@
 /* time to wait when door is open or after an emergency */
 #define WAIT_TIME 3
 
+#define ON 1
+#define OFF 0
 
 typedef enum state_type {
     IDLE = 0,
