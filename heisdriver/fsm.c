@@ -143,6 +143,7 @@ state_t fsm_get_state(){
 
 void fsm_clear_lights(int floor){
 	for(elev_button_type_t b = BUTTON_CALL_UP; b <= BUTTON_COMMAND; b++){
+		/* check that we do not try to acces an element not assosiated with a button */
 		if((floor == 0 && b == BUTTON_CALL_DOWN) || (floor == 3 && b == BUTTON_CALL_UP)){
            	continue;
         }
