@@ -64,7 +64,7 @@ void fsm_ev_floor_sensor(int floor){
 void fsm_ev_emergency(){
 	elev_set_motor_direction(DIRN_STOP);
 	motor_dir = DIRN_STOP;
-	order_clear();
+	order_clear_all();
 	//clear order + request lights
 	for(int f = 0; f<N_FLOORS; f++){
 			fsm_clear_lights(f);
