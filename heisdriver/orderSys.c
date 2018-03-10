@@ -1,25 +1,6 @@
 #include "orderSys.h"
 
 
-void order_print_queue(){
-	printf("Queue: " );
-	for(int f = 0; f<4;f++){
-			printf("%d, ",queue[f]);
-	}
-	printf("\n");
-}
-
-/*
-void print_buttons(){
-	for(int f = 0; f<4;f++){
-		for(int b = 0; b<3;b++){
-			printf(active_buttons[f][b] + "\t" );
-		}
-		printf("\n");
-	}
-}
-*/
-
 void order_update(elev_button_type_t button, int floor) {
 	active_buttons[floor][button] = 1;
 	//adds to queue
@@ -155,10 +136,10 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 
 	return 0;
 
-};
+}
 
 
-bool orders_none() {
+bool orders_finished() {
 	for (int i = 0; i < 4; i++) {
 		if (queue[i] != -1 || active_buttons[i][0] != 0 || active_buttons[i][1] != 0 ||  active_buttons[i][2] != 0) {
 			return 0;
@@ -166,7 +147,7 @@ bool orders_none() {
 
 	}
 	return 1;
-};
+}
 
 bool queue_empty(){
 	for(int i = 0; i<4;i++){
@@ -194,4 +175,4 @@ bool order_no_request_current_dir(elev_motor_direction_t dir){
 
 	}
 	return 1;
-};
+}

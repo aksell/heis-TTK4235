@@ -37,7 +37,7 @@ void fsm_ev_floor_sensor(int floor){
 				timer_reset();
 				elev_set_door_open_lamp(OFF);
 
-				if(orders_none()){
+				if(orders_finished()){
 					current_state = IDLE;
 				}else{
 					motor_dir = order_get_dir(current_floor);
@@ -112,7 +112,7 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 			}
 
 			if(order_get_dir(current_floor) == DIRN_STOP){
-				if(orders_none()){
+				if(orders_finished()){
 					current_state = IDLE;
 
 				}
