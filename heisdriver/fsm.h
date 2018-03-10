@@ -25,7 +25,7 @@ typedef enum state_type {
 static state_t current_state;
 static int current_floor;
 static int motor_dir;
-static int previous_floor;
+static double real_floor;
 
 
 bool fsm_init();

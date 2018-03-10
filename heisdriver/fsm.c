@@ -11,7 +11,6 @@ bool fsm_init(){
 
 void fsm_ev_floor_sensor(int floor){
 	elev_set_floor_indicator(floor);
-	previous_floor = floor;
 	current_floor = floor;
 
 	switch (current_state){
@@ -35,16 +34,17 @@ void fsm_ev_floor_sensor(int floor){
 			order_completed(floor);
 			clear_lights(current_floor);
 
-			if(timer_get()>3){		//poll knapper
+			if(timer_get() > 3){		//poll knapper
 				timer_reset();
 				elev_set_door_open_lamp(0);
 
 				if(orders_none()){
 					current_state = IDLE;
 				}else{
-					motor_dir = order_get_dir(floor);
-					elev_set_motor_direction(order_get_dir(current_floor));
+					motor_dir = order_get_dir(current_floor);
+					elev_set_motor_direction(motor_dir);
 					current_state=MOVING;
+					real_floor = current_floor + motor_dir/2.0;
 				}
 			}
 			break;
@@ -102,27 +102,31 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 	elev_set_button_lamp(button, floor, 1);
 	current_floor = elev_get_floor_sensor_signal();
 
-
 	switch (current_state){
 
 		case IDLE:
 			if(current_floor==-1){
-				motor_dir = order_get_dir_d((current_floor+previous_floor)/2.0);
+				motor_dir = order_get_dir_d(real_floor);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;	
+				break;
 			}
 
-			if(order_get_dir(current_floor)==DIRN_STOP){
+			if(order_get_dir(current_floor) == DIRN_STOP){
 				if(orders_none()){
 					current_state = IDLE;
 
 				}
-				else{current_state = STOP;}
+				else{
+					current_state = STOP;
+				}
 				break;
 			}else{
+				//real_floor = elev_get_floor_sensor_signal();
 				motor_dir = order_get_dir(current_floor);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;
+				real_floor = real_floor + motor_dir/2.0;
 			}
 		case MOVING:
 			break;
@@ -139,7 +143,7 @@ state_t fsm_get_state(){
 }
 
 void clear_lights(int floor){
-	for(elev_button_type_t b = BUTTON_CALL_UP; b<=BUTTON_COMMAND; b++){
+	for(elev_button_type_t b = BUTTON_CALL_UP; b <= BUTTON_COMMAND; b++){
 		if((floor==0 && b==BUTTON_CALL_DOWN)||(floor==3&&b==BUTTON_CALL_UP)){
            	continue;
         }
