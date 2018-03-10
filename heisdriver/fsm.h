@@ -16,8 +16,8 @@
 typedef enum state_type {
     IDLE = 0,
     MOVING =1,
-    STOP = 3,
-    EMERGENCY = 4
+    STOP = 2,
+    EMERGENCY = 3
 
 
 } state_t;
