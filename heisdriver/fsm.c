@@ -60,33 +60,6 @@ void fsm_ev_floor_sensor(int floor){
 
 }
 
-
-void fsm_ev_emergency(){
-	elev_set_motor_direction(DIRN_STOP);
-	motor_dir = DIRN_STOP;
-	order_clear_all();
-	for(int f = 0; f<N_FLOORS; f++){
-			fsm_clear_lights(f);
-	}
-
-	switch (current_state){
-		case IDLE:
-		case MOVING:
-		case STOP:
-			current_state = EMERGENCY;
-			elev_set_stop_lamp(ON);
-			break;
-		case EMERGENCY:
-			while(elev_get_stop_signal()){};
-			elev_set_stop_lamp(OFF);
-
-			current_state = IDLE;
-
-			break;
-	}
-
-};
-
 void fsm_ev_button(elev_button_type_t button, int floor){
 	order_update(button, floor);
 	elev_set_button_lamp(button, floor, ON);
@@ -124,6 +97,32 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 		case EMERGENCY:
 			break;
 		}
+
+}
+
+void fsm_ev_emergency(){
+	elev_set_motor_direction(DIRN_STOP);
+	motor_dir = DIRN_STOP;
+	order_clear_all();
+	for(int f = 0; f<N_FLOORS; f++){
+			fsm_clear_lights(f);
+	}
+
+	switch (current_state){
+		case IDLE:
+		case MOVING:
+		case STOP:
+			current_state = EMERGENCY;
+			elev_set_stop_lamp(ON);
+			break;
+		case EMERGENCY:
+			while(elev_get_stop_signal()){};
+			elev_set_stop_lamp(OFF);
+
+			current_state = IDLE;
+
+			break;
+	}
 
 }
 

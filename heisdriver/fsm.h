@@ -1,13 +1,15 @@
 #include "elev.h"
 #include "orderSys.h"
+#include "timer.h"
+
 #include <stdio.h>
 #include <stdbool.h>
-#include "timer.h"
+
 
 #ifndef FSM_H
 #define FSM_H
 
-/* time to wait when door is open or after an emergency */
+/* Time to wait when door is open */
 #define WAIT_TIME 3
 
 #define ON 1
@@ -28,12 +30,12 @@ static int motor_dir;
 static double real_floor;
 
 /* 
- *Moves elevator to a known states
+ * Moves elevator to a known states
  */
 bool fsm_init();
 
 /*
- *Elevator events are handled by their respective fsm_event function 
+ * Elevator events are handled by their respective fsm_event function 
  */
 void fsm_ev_floor_sensor(int floor);
 
@@ -41,9 +43,14 @@ void fsm_ev_emergency();
 
 void fsm_ev_button(elev_button_type_t button, int floor);
 
-
+/*
+ * Returns the current state
+ */
 state_t fsm_get_state();
 
+/*
+ * Clear order lights and request lights
+ */
 void fsm_clear_lights();
 
 #endif
