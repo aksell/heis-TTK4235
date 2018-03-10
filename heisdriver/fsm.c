@@ -9,7 +9,7 @@ bool fsm_init(){
 
 }
 
-void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
+void fsm_ev_floor_sensor(int floor){
 	elev_set_floor_indicator(floor);
 	previous_floor = floor;
 	current_floor = floor;
@@ -18,13 +18,11 @@ void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 
 		case IDLE:
 			break;
-
 		case MOVING:
 			if(order_should_stop(floor, motor_dir)){
 				current_state = STOP;
 			}
 			break;
-
 		case STOP:
 			motor_dir = DIRN_STOP;
 			elev_set_motor_direction(DIRN_STOP);
@@ -50,8 +48,6 @@ void fsm_ev_floor_sensor(int floor){		//use current floor, remove floor
 				}
 			}
 			break;
-
-
 		case EMERGENCY:
 			elev_set_door_open_lamp(1);
 			while(elev_get_stop_signal()){};
@@ -71,42 +67,35 @@ void fsm_ev_emergency(){
 	motor_dir = DIRN_STOP;
 	order_clear();
 	//clear order + request lights
-	for(int f = 0;f<4;f++){
+	for(int f = 0; f<N_FLOORS; f++){
 			clear_lights(f);
 	}
-	switch (current_state){
 
+	switch (current_state){
 		case IDLE:
 		case MOVING:
 		case STOP:
 			current_state = EMERGENCY;
 			elev_set_stop_lamp(1);
 			break;
-
 		case EMERGENCY:
-			printf("em_signal_stop\n");
-
 			while(elev_get_stop_signal()){};
 			elev_set_stop_lamp(0);
 			if(!timer_active()){
-				printf("timer reset\n");
-
 				timer_set();
 			}
 
-			if(timer_get()>3){		//poll knapper
+			/*
+			 * If timer > WAIT_TIME reset timer, leave emergency
+			 */
+			if(timer_get() > WAIT_TIME){
 				timer_reset();
-				printf("freeeeeeee\n");
-
 				current_state = IDLE;
 			}
 			break;
 	}
 
 };
-
-//because IDLE can either be at floor or no floor
-
 
 void fsm_ev_button(elev_button_type_t button, int floor){
 	order_update(button, floor);
@@ -117,12 +106,12 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 	switch (current_state){
 
 		case IDLE:
-		printf("%i ey aiyhaaaaaaa\n", elev_get_floor_sensor_signal());
 			if(current_floor==-1){
 				motor_dir = order_get_dir_d((current_floor+previous_floor)/2.0);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;	
 			}
+
 			if(order_get_dir(current_floor)==DIRN_STOP){
 				if(orders_none()){
 					current_state = IDLE;
@@ -131,19 +120,16 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 				else{current_state = STOP;}
 				break;
 			}else{
-				printf("-1\n");
 				motor_dir = order_get_dir(current_floor);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;
 			}
-
 		case MOVING:
 			break;
 		case STOP:			
 			break;
 		case EMERGENCY:
 			break;
-
 		}
 
 }
