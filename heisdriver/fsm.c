@@ -1,5 +1,6 @@
 #include "fsm.h"
 
+
 bool fsm_init(){
 	elev_set_motor_direction(DIRN_UP);
     while(elev_get_floor_sensor_signal()==-1){};
@@ -26,7 +27,7 @@ void fsm_ev_floor_sensor(int floor){
 			motor_dir = DIRN_STOP;
 			elev_set_motor_direction(DIRN_STOP);
 
-			if(!timer_active()){
+			if(!timer_is_active()){
 				timer_set();
 			}
 
