@@ -31,7 +31,7 @@ bool order_no_request_current_dir(elev_motor_direction_t dir);
 
 /*
  * order_get_dir returns the direction the elevator should travel
- * to complete orders or requests. Orders are completed in order.
+ * to complete orders or requests. Orders are completed in chronologically.
  * Orders have priority over requests, and wil be serviced first. 
  */
 elev_motor_direction_t order_get_dir(int floor);
