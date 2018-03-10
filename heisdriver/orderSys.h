@@ -21,9 +21,11 @@ void order_clear();
 
 void order_print_queue();
 
+/*
+ * Returns true if there are no requests in the current direction
+ */
 bool order_no_request_current_dir(elev_motor_direction_t dir);
 
-bool queue_empty();
 
 
 elev_motor_direction_t order_get_dir(int floor);

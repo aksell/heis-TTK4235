@@ -130,7 +130,9 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 		return 1;
 	}
 	
-	if (order_no_request_current_dir(dir) && (active_buttons[floor][0] || active_buttons[floor][1])){
+	if (order_no_request_current_dir(dir) 
+		&& (active_buttons[floor][0] 
+		|| active_buttons[floor][1])){
 		return 1;
 	}
 
@@ -141,7 +143,10 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 
 bool orders_finished() {
 	for (int i = 0; i < 4; i++) {
-		if (queue[i] != -1 || active_buttons[i][0] != 0 || active_buttons[i][1] != 0 ||  active_buttons[i][2] != 0) {
+		if (queue[i] != -1 
+			|| active_buttons[i][0] != 0 
+			|| active_buttons[i][1] != 0 
+			||  active_buttons[i][2] != 0) {
 			return 0;
 		}
 
@@ -149,14 +154,6 @@ bool orders_finished() {
 	return 1;
 }
 
-bool queue_empty(){
-	for(int i = 0; i<4;i++){
-		if(queue[i]!=-1){
-			return false;
-		}
-	}
-	return true;
-}
 
 //returns 1 if no request in current direction
 bool order_no_request_current_dir(elev_motor_direction_t dir){
