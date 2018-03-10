@@ -38,7 +38,7 @@ void fsm_ev_floor_sensor(int floor){
 				timer_reset();
 				elev_set_door_open_lamp(OFF);
 
-				if(orders_finished()){
+				if(order_finished()){
 					current_state = IDLE;
 				}else{
 					motor_dir = order_get_dir(current_floor);
@@ -65,7 +65,6 @@ void fsm_ev_emergency(){
 	elev_set_motor_direction(DIRN_STOP);
 	motor_dir = DIRN_STOP;
 	order_clear_all();
-	//clear order + request lights
 	for(int f = 0; f<N_FLOORS; f++){
 			fsm_clear_lights(f);
 	}
@@ -80,19 +79,7 @@ void fsm_ev_emergency(){
 		case EMERGENCY:
 			while(elev_get_stop_signal()){};
 			elev_set_stop_lamp(OFF);
-			/*
-			if(!timer_active()){
-				timer_set();
-			}
 
-			/*
-			 * If timer > WAIT_TIME then reset timer and leave emergency
-			 */
-			/*
-			if(timer_get() > WAIT_TIME){
-				timer_reset();
-			}
-			*/
 			current_state = IDLE;
 
 			break;
@@ -116,7 +103,7 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 			}
 
 			if(order_get_dir(current_floor) == DIRN_STOP){
-				if(orders_finished()){
+				if(order_finished()){
 					current_state = IDLE;
 				}
 				else{
