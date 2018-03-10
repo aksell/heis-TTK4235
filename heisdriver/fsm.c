@@ -6,7 +6,6 @@ bool fsm_init(){
     elev_set_motor_direction(DIRN_STOP);
     current_state = IDLE;
     return 1;
-
 }
 
 void fsm_ev_floor_sensor(int floor){
@@ -34,7 +33,7 @@ void fsm_ev_floor_sensor(int floor){
 			order_completed(floor);
 			clear_lights(current_floor);
 
-			if(timer_get() > 3){		//poll knapper
+			if(timer_get() > WAIT_TIME){
 				timer_reset();
 				elev_set_door_open_lamp(0);
 
