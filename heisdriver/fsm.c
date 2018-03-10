@@ -30,7 +30,7 @@ void fsm_ev_floor_sensor(int floor){
 			}
 
 			elev_set_door_open_lamp(ON);
-			order_completed(floor);
+			order_remove(floor);
 			fsm_clear_lights(current_floor);
 
 			if(timer_get() > WAIT_TIME){
@@ -85,7 +85,7 @@ void fsm_ev_emergency(){
 			}
 
 			/*
-			 * If timer > WAIT_TIME reset timer, leave emergency
+			 * If timer > WAIT_TIME then reset timer and leave emergency
 			 */
 			if(timer_get() > WAIT_TIME){
 				timer_reset();

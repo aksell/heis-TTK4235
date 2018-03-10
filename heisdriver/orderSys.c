@@ -3,12 +3,12 @@
 
 void order_update(elev_button_type_t button, int floor) {
 	active_buttons[floor][button] = 1;
-	//adds to queue
+
+	/* add new order to queue */
 	if (button == BUTTON_COMMAND) {
 		for (int i = 0; i<4; i++) {
 			if (queue[i] == floor || queue[i] == -1) {
 				queue[i] = floor;
-				//printf("queue: %i\n", floor);
 				break;
 			}
 		}
@@ -16,13 +16,13 @@ void order_update(elev_button_type_t button, int floor) {
 }
 
 
-void order_completed(int floor) {
+void order_remove(int floor) {
 
 	for (int i = 0; i<3; i++) {
 		active_buttons[floor][i] = 0;
 	}
 
-	//moves array
+	/* Moves orders forward in queue*/
 	for (int i = 0; i<4; i++) {
 		if (queue[i] == floor) {
 			if (i != 3) {
