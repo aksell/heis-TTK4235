@@ -123,16 +123,21 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 		}
 	}
 	//check if requested and in same direction
-	if (dir == -1 && active_buttons[floor][1]) {
+	if (dir == -1 && active_buttons[floor][BUTTON_CALL_DOWN]) {
 		return 1;
 	}
-	if (dir == 1 && active_buttons[floor][0]) {
+	if (dir == 1 && active_buttons[floor][BUTTON_CALL_UP]) {
 		return 1;
 	}
-	
-	if (order_no_request_current_dir(dir) 
-		&& (active_buttons[floor][0] 
-		|| active_buttons[floor][1])){
+
+	if (order_queue_empty() && order_no_request_current_dir(dir) 
+		&& (active_buttons[floor][BUTTON_CALL_UP] 
+		|| active_buttons[floor][BUTTON_CALL_DOWN])){
+		return 1;
+	}
+
+	if (((floor==0) && (active_buttons[0][0]||active_buttons[0][1]))
+		||((floor == 3) && (active_buttons[3][0]||active_buttons[3][1]))){
 		return 1;
 	}
 
@@ -170,6 +175,15 @@ bool order_no_request_current_dir(elev_motor_direction_t dir){
 			return 0;
 		}
 
+	}
+	return 1;
+}
+
+bool order_queue_empty(){
+	for(int i = 0; i<4;i++){
+		if (queue[i] !=-1){
+			return 0;
+		}
 	}
 	return 1;
 }

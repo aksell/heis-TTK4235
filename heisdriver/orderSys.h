@@ -16,9 +16,11 @@ void order_remove(int floor);
 
 bool order_should_stop(int floor, elev_motor_direction_t dir);
 
-bool orders_finished();
+bool orders_finished();		//no active buttons
 
 void order_clear_all();
+
+bool order_queue_empty();
 
 
 /*
