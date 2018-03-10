@@ -4,12 +4,12 @@
 #include <stdbool.h>
 #include "timer.h"
 
-/* time to wait when door is open or after an emergency */
-#define WAIT_TIME 3
 
 #ifndef FSM_H
 #define FSM_H
 
+/* time to wait when door is open or after an emergency */
+#define WAIT_TIME 3
 
 
 typedef enum state_type {
