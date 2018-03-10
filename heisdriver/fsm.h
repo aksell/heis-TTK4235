@@ -36,10 +36,14 @@ bool fsm_init();
  *Elevator events are handled by their respective fsm_event function 
  */
 void fsm_ev_floor_sensor(int floor);
+
 void fsm_ev_emergency();
+
 void fsm_ev_button(elev_button_type_t button, int floor);
 
+
 state_t fsm_get_state();
+
 void fsm_clear_lights();
 
 #endif
