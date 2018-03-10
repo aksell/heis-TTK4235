@@ -30,14 +30,14 @@ void fsm_ev_floor_sensor(int floor){
 			}
 
 			elev_set_door_open_lamp(ON);
-			order_completed(floor);
-			clear_lights(current_floor);
+			order_remove(floor);
+			fsm_clear_lights(current_floor);
 
 			if(timer_get() > WAIT_TIME){
 				timer_reset();
 				elev_set_door_open_lamp(OFF);
 
-				if(orders_none()){
+				if(orders_finished()){
 					current_state = IDLE;
 				}else{
 					motor_dir = order_get_dir(current_floor);
@@ -64,10 +64,10 @@ void fsm_ev_floor_sensor(int floor){
 void fsm_ev_emergency(){
 	elev_set_motor_direction(DIRN_STOP);
 	motor_dir = DIRN_STOP;
-	order_clear();
+	order_clear_all();
 	//clear order + request lights
 	for(int f = 0; f<N_FLOORS; f++){
-			clear_lights(f);
+			fsm_clear_lights(f);
 	}
 
 	switch (current_state){
@@ -85,7 +85,7 @@ void fsm_ev_emergency(){
 			}
 
 			/*
-			 * If timer > WAIT_TIME reset timer, leave emergency
+			 * If timer > WAIT_TIME then reset timer and leave emergency
 			 */
 			if(timer_get() > WAIT_TIME){
 				timer_reset();
@@ -112,7 +112,7 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 			}
 
 			if(order_get_dir(current_floor) == DIRN_STOP){
-				if(orders_none()){
+				if(orders_finished()){
 					current_state = IDLE;
 
 				}
@@ -141,8 +141,9 @@ state_t fsm_get_state(){
 	return current_state;
 }
 
-void clear_lights(int floor){
+void fsm_clear_lights(int floor){
 	for(elev_button_type_t b = BUTTON_CALL_UP; b <= BUTTON_COMMAND; b++){
+		/* check that we do not try to acces an element not assosiated with a button */
 		if((floor == 0 && b == BUTTON_CALL_DOWN) || (floor == 3 && b == BUTTON_CALL_UP)){
            	continue;
         }

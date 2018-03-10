@@ -1,33 +1,14 @@
 #include "orderSys.h"
 
 
-void order_print_queue(){
-	printf("Queue: " );
-	for(int f = 0; f<4;f++){
-			printf("%d, ",queue[f]);
-	}
-	printf("\n");
-}
-
-/*
-void print_buttons(){
-	for(int f = 0; f<4;f++){
-		for(int b = 0; b<3;b++){
-			printf(active_buttons[f][b] + "\t" );
-		}
-		printf("\n");
-	}
-}
-*/
-
 void order_update(elev_button_type_t button, int floor) {
 	active_buttons[floor][button] = 1;
-	//adds to queue
+
+	/* add new order to queue */
 	if (button == BUTTON_COMMAND) {
 		for (int i = 0; i<4; i++) {
 			if (queue[i] == floor || queue[i] == -1) {
 				queue[i] = floor;
-				//printf("queue: %i\n", floor);
 				break;
 			}
 		}
@@ -35,13 +16,13 @@ void order_update(elev_button_type_t button, int floor) {
 }
 
 
-void order_completed(int floor) {
+void order_remove(int floor) {
 
 	for (int i = 0; i<3; i++) {
 		active_buttons[floor][i] = 0;
 	}
 
-	//moves array
+	/* Moves orders forward in queue*/
 	for (int i = 0; i<4; i++) {
 		if (queue[i] == floor) {
 			if (i != 3) {
@@ -55,7 +36,7 @@ void order_completed(int floor) {
 }
 
 
-void order_clear() {
+void order_clear_all() {
 	for (int i = 0; i<4; i++) {
 		queue[i] = -1;
 		for (int j = 0; j<3; j++) {
@@ -149,33 +130,30 @@ bool order_should_stop(int floor, elev_motor_direction_t dir) {
 		return 1;
 	}
 	
-	if (order_no_request_current_dir(dir) && (active_buttons[floor][0] || active_buttons[floor][1])){
+	if (order_no_request_current_dir(dir) 
+		&& (active_buttons[floor][0] 
+		|| active_buttons[floor][1])){
 		return 1;
 	}
 
 	return 0;
 
-};
+}
 
 
-bool orders_none() {
+bool orders_finished() {
 	for (int i = 0; i < 4; i++) {
-		if (queue[i] != -1 || active_buttons[i][0] != 0 || active_buttons[i][1] != 0 ||  active_buttons[i][2] != 0) {
+		if (queue[i] != -1 
+			|| active_buttons[i][0] != 0 
+			|| active_buttons[i][1] != 0 
+			||  active_buttons[i][2] != 0) {
 			return 0;
 		}
 
 	}
 	return 1;
-};
-
-bool queue_empty(){
-	for(int i = 0; i<4;i++){
-		if(queue[i]!=-1){
-			return false;
-		}
-	}
-	return true;
 }
+
 
 //returns 1 if no request in current direction
 bool order_no_request_current_dir(elev_motor_direction_t dir){
@@ -194,4 +172,4 @@ bool order_no_request_current_dir(elev_motor_direction_t dir){
 
 	}
 	return 1;
-};
+}
