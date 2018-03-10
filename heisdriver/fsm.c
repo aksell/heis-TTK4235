@@ -11,6 +11,7 @@ bool fsm_init(){
 void fsm_ev_floor_sensor(int floor){
 	elev_set_floor_indicator(floor);
 	current_floor = floor;
+	real_floor = current_floor + motor_dir/2.0;
 
 	switch (current_state){
 
@@ -43,7 +44,6 @@ void fsm_ev_floor_sensor(int floor){
 					motor_dir = order_get_dir(current_floor);
 					elev_set_motor_direction(motor_dir);
 					current_state=MOVING;
-					real_floor = current_floor + motor_dir/2.0;
 				}
 			}
 			break;
@@ -80,6 +80,7 @@ void fsm_ev_emergency(){
 		case EMERGENCY:
 			while(elev_get_stop_signal()){};
 			elev_set_stop_lamp(OFF);
+			/*
 			if(!timer_active()){
 				timer_set();
 			}
@@ -87,10 +88,13 @@ void fsm_ev_emergency(){
 			/*
 			 * If timer > WAIT_TIME then reset timer and leave emergency
 			 */
+			/*
 			if(timer_get() > WAIT_TIME){
 				timer_reset();
-				current_state = IDLE;
 			}
+			*/
+			current_state = IDLE;
+
 			break;
 	}
 
@@ -114,18 +118,17 @@ void fsm_ev_button(elev_button_type_t button, int floor){
 			if(order_get_dir(current_floor) == DIRN_STOP){
 				if(orders_finished()){
 					current_state = IDLE;
-
 				}
 				else{
 					current_state = STOP;
 				}
 				break;
 			}else{
-				//real_floor = elev_get_floor_sensor_signal();
 				motor_dir = order_get_dir(current_floor);
 				elev_set_motor_direction(motor_dir);
 				current_state = MOVING;
 				real_floor = real_floor + motor_dir/2.0;
+				break;
 			}
 		case MOVING:
 			break;
