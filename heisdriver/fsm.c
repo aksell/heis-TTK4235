@@ -31,7 +31,7 @@ void fsm_ev_floor_sensor(int floor){
 
 			elev_set_door_open_lamp(ON);
 			order_completed(floor);
-			clear_lights(current_floor);
+			fsm_clear_lights(current_floor);
 
 			if(timer_get() > WAIT_TIME){
 				timer_reset();
@@ -67,7 +67,7 @@ void fsm_ev_emergency(){
 	order_clear();
 	//clear order + request lights
 	for(int f = 0; f<N_FLOORS; f++){
-			clear_lights(f);
+			fsm_clear_lights(f);
 	}
 
 	switch (current_state){
@@ -141,7 +141,7 @@ state_t fsm_get_state(){
 	return current_state;
 }
 
-void clear_lights(int floor){
+void fsm_clear_lights(int floor){
 	for(elev_button_type_t b = BUTTON_CALL_UP; b <= BUTTON_COMMAND; b++){
 		if((floor == 0 && b == BUTTON_CALL_DOWN) || (floor == 3 && b == BUTTON_CALL_UP)){
            	continue;
